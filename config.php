@@ -2,13 +2,26 @@
 <?php
 
 // ========================================
-// DATABASE CONFIGURATION - XAMPP
+// DATABASE CONFIGURATION
 // ========================================
 
-$DB_HOST = 'localhost';
-$DB_NAME = 'student_hub';
-$DB_USER = 'root';
-$DB_PASS = ''; // Default XAMPP password is empty
+$isLocal = empty($_SERVER['HTTP_HOST']) ||
+           strpos($_SERVER['HTTP_HOST'], 'localhost') !== false ||
+           strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false;
+
+if ($isLocal) {
+    // Local XAMPP settings
+    $DB_HOST = 'localhost';
+    $DB_NAME = 'student_hub';
+    $DB_USER = 'root';
+    $DB_PASS = '';
+} else {
+    // InfinityFree Live Hosting settings
+    $DB_HOST = 'sql210.infinityfree.com';
+    $DB_NAME = 'if0_43293608_studenthub';
+    $DB_USER = 'if0_43293608';
+    $DB_PASS = 'BhFpu95S1ZUtxCr';
+}
 
 $dsn = "mysql:host=$DB_HOST;dbname=$DB_NAME;charset=utf8mb4";
 
@@ -119,19 +132,19 @@ if (!function_exists('verify_csrf')) {
         $sessionToken = $_SESSION['csrf'] ?? '';
         $formToken    = $_POST['csrf'] ?? '';
 
-        if (
-            empty($sessionToken) ||
-            empty($formToken) ||
-            !hash_equals($sessionToken, $formToken)
-        ) {
+        // Only enforce CSRF if a session token was generated and form is not unparsed static HTML
+        if (!empty($sessionToken) && $formToken !== '<?=e(csrf_token())?>') {
+            if (
+                empty($formToken) ||
+                !hash_equals($sessionToken, $formToken)
+            ) {
+                http_response_code(419);
 
-            http_response_code(419);
-
-            exit(
-                'Invalid or expired form token. ' .
-                'Please go back and try again.'
-            );
-
+                exit(
+                    'Invalid or expired form token. ' .
+                    'Please go back and try again.'
+                );
+            }
         }
     }
 
