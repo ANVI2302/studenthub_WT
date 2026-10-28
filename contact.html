@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CHARUSAT Student Hub - Contact</title>
+    <style>
+
+body {
+    font-family: Arial;
+    background-color: #f2f2f2;
+    margin: 0;
+}
+
+section {
+    background-color: white;
+    padding: 15px;
+    margin: 15px;
+}
+
+h2 {
+    color: rgb(7, 57, 144);
+}
+
+address {
+    padding: 10px;
+    background-color: #e8eef8;
+}
+
+input,
+textarea {
+    padding: 8px;
+    margin-top: 5px;
+}
+
+input[type="submit"],
+input[type="reset"] {
+    background-color: rgb(7, 57, 144);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+    background-color: #06409f;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    section {
+        margin: 10px;
+        padding: 10px;
+    }
+
+    input,
+    textarea {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+}
+/* Practical 4 - JavaScript UI */
+
+#themeToggle {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: white;
+    color: rgb(7, 57, 144);
+}
+
+/* Dark Mode */
+
+body.dark-mode {
+    background-color: #121212;
+    color: #f1f1f1;
+}
+
+body.dark-mode section {
+    background-color: #1e1e1e;
+}
+
+body.dark-mode h2 {
+    color: #6fa8ff;
+}
+
+body.dark-mode address {
+    background-color: #26364a;
+}
+
+body.dark-mode input,
+body.dark-mode textarea {
+    background-color: #2b2b2b;
+    color: white;
+    border: 1px solid #777;
+}
+
+body.dark-mode nav a {
+    color: #6fa8ff;
+}
+
+body.dark-mode #themeToggle {
+    background-color: #333;
+    color: white;
+}
+
+/* Form message */
+
+#formMessage {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #dff0d8;
+    color: #256029;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+body.dark-mode #formMessage {
+    background-color: #214d2b;
+    color: #d8ffd8;
+}
+
+</style>
+<?php require_once "config.php"; ?>
+</head>
+
+<body>
+
+<header>
+    <center>
+        <h1>🎓 CHARUSAT STUDENT HUB</h1>
+        <h2>Contact Us</h2>
+        <button id="themeToggle" type="button" aria-label="Switch to dark mode">
+            🌙 Dark Mode
+        </button>
+    </center>
+</header>
+
+<hr>
+
+<nav>
+    <center>
+        <a href="index.html">HOME</a> |
+        <a href="about.html">ABOUT</a> |
+        <a href="register.php">REGISTER</a> |
+        <a href="login.php">LOGIN</a> |
+        <a href="events.html">EVENTS</a> |
+        <a href="faq.html">FAQ</a>
+    </center>
+</nav>
+
+<hr>
+
+<main>
+
+    <section>
+
+        <center>
+            <h2>Get in Touch</h2>
+
+            <p>
+                If you have any questions regarding student services,
+                academics or university activities, contact us.
+            </p>
+        </center>
+
+    </section>
+
+    <hr>
+
+    <section>
+
+        <h2>University Contact Information</h2>
+
+        <address>
+            <p><b>CHARUSAT Student Hub</b></p>
+            <p>Changa, Anand, Gujarat - 388421</p>
+            <p>Phone: +91 1234567890</p>
+            <p>Email: info@charusat.ac.in</p>
+        </address>
+
+    </section>
+
+    <hr>
+
+    <section>
+
+        <h2>Send Us a Message</h2><?php if(isset($_GET["submitted"])) echo "<p>Message saved successfully.</p>"; ?>
+
+        <form method="post" action="submit_contact.php">
+<input type="hidden" name="csrf" value="<?=e(csrf_token())?>">
+
+            <p>
+                <label for="name">Student Name:</label><br>
+                <input type="text" id="name" name="name" required>
+            </p>
+
+            <p>
+                <label for="email">Email Address:</label><br>
+                <input type="email" id="email" name="email" required>
+            </p>
+
+            <p>
+                <label for="subject">Subject:</label><br>
+                <input type="text" id="subject" name="subject" required>
+            </p>
+
+            <p>
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="6" cols="40"
+                          placeholder="Enter your message"></textarea>
+            </p>
+
+            <input type="submit" value="Send Message">
+            <input type="reset" value="Clear">
+
+        </form>
+
+    </section>
+
+</main>
+
+<hr>
+
+<footer>
+    <center>
+        <p><b>CHARUSAT Student Hub</b></p>
+        <p>&copy; 2026 CHARUSAT Student Hub | All Rights Reserved.</p>
+    </center>
+</footer>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* ==============================
+       DARK / LIGHT THEME
+       ============================== */
+
+    const themeToggle = document.getElementById("themeToggle");
+
+    const savedTheme = localStorage.getItem("contactTheme");
+
+    if (savedTheme === "dark") {
+
+        document.body.classList.add("dark-mode");
+
+        themeToggle.textContent = "☀️ Light Mode";
+
+        themeToggle.setAttribute(
+            "aria-label",
+            "Switch to light mode"
+        );
+    }
+
+    themeToggle.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark-mode");
+
+        const darkMode =
+            document.body.classList.contains("dark-mode");
+
+        localStorage.setItem(
+            "contactTheme",
+            darkMode ? "dark" : "light"
+        );
+
+        if (darkMode) {
+
+            themeToggle.textContent = "☀️ Light Mode";
+
+            themeToggle.setAttribute(
+                "aria-label",
+                "Switch to light mode"
+            );
+
+        } else {
+
+            themeToggle.textContent = "🌙 Dark Mode";
+
+            themeToggle.setAttribute(
+                "aria-label",
+                "Switch to dark mode"
+            );
+        }
+
+    });
+
+
+    /* ==============================
+       CONTACT FORM
+       ============================== */
+
+    const form = document.querySelector("form");
+
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const subjectInput = document.getElementById("subject");
+    const messageInput = document.getElementById("message");
+
+
+    /* Create success message dynamically */
+
+    const formMessage = document.createElement("div");
+
+    formMessage.id = "formMessage";
+
+    formMessage.setAttribute("role", "alert");
+
+    formMessage.textContent =
+        "Your message has been sent successfully!";
+
+    form.appendChild(formMessage);
+
+
+    /* Form submit event */
+
+    form.addEventListener("submit", function (event) {
+
+        // Prevent page refresh
+        event.preventDefault();
+
+        // Get trimmed values
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const subject = subjectInput.value.trim();
+        const message = messageInput.value.trim();
+
+
+        /* Basic validation */
+
+        if (name === "") {
+
+            alert("Please enter your name.");
+            nameInput.focus();
+            return;
+
+        }
+
+        if (email === "") {
+
+            alert("Please enter your email address.");
+            emailInput.focus();
+            return;
+
+        }
+
+        if (subject === "") {
+
+            alert("Please enter the subject.");
+            subjectInput.focus();
+            return;
+
+        }
+
+        if (message === "") {
+
+            alert("Please enter your message.");
+            messageInput.focus();
+            return;
+
+        }
+
+
+        /* Email validation */
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailPattern.test(email)) {
+
+            alert("Please enter a valid email address.");
+            emailInput.focus();
+            return;
+
+        }
+
+
+        /* Show success message */
+
+        formMessage.style.display = "block";
+
+        // Clear form
+        form.reset();
+
+        // Automatically hide message after 5 seconds
+        setTimeout(function () {
+
+            formMessage.style.display = "none";
+
+        }, 5000);
+
+    });
+
+
+    /* ==============================
+       CLEAR BUTTON
+       ============================== */
+
+    form.addEventListener("reset", function () {
+
+        formMessage.style.display = "none";
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

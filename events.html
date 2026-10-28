@@ -1,0 +1,942 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHARUSAT Student Hub - Events</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: rgb(7, 57, 144);
+            color: white;
+            padding: 15px;
+        }
+
+        nav {
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: rgb(7, 57, 144);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        nav a:hover {
+            color: #06409f;
+        }
+
+        main {
+            width: 90%;
+            margin: auto;
+        }
+
+        section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        h2,
+        h3 {
+            color: rgb(7, 57, 144);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #999;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgb(7, 57, 144);
+            color: white;
+        }
+
+        .events {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .events li {
+            background-color: #e8eef8;
+            padding: 12px;
+            flex: 1;
+        }
+
+        a {
+            color: rgb(7, 57, 144);
+        }
+
+        footer {
+            background-color: rgb(7, 57, 144);
+            color: white;
+            padding: 15px;
+        }
+
+        /* =========================
+           THEME BUTTON
+           ========================= */
+
+        #themeToggle {
+            padding: 10px 18px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: white;
+            color: rgb(7, 57, 144);
+            transition: 0.3s;
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================
+           DARK MODE
+           ========================= */
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f1f1f1;
+        }
+
+        body.dark-mode header {
+            background-color: #073990;
+        }
+
+        body.dark-mode nav {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode nav a {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode nav a:hover {
+            color: white;
+        }
+
+        body.dark-mode section {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode table {
+            background-color: #1e1e1e;
+            color: #f1f1f1;
+        }
+
+        body.dark-mode td {
+            border-color: #666;
+        }
+
+        body.dark-mode a {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode footer {
+            background-color: #073990;
+        }
+
+        body.dark-mode #themeToggle {
+            background-color: #333;
+            color: white;
+        }
+
+        /* =========================
+           EVENT ROW
+           ========================= */
+
+        .event-row {
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .event-row:hover {
+            background-color: #e8eef8;
+            transform: scale(1.01);
+        }
+
+        body.dark-mode .event-row:hover {
+            background-color: #26364a;
+        }
+
+        /* =========================
+           FILTER BUTTONS
+           ========================= */
+
+        .event-filters {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #e8eef8;
+            color: rgb(7, 57, 144);
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .filter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .filter-btn.active {
+            background-color: rgb(7, 57, 144);
+            color: white;
+        }
+
+        body.dark-mode .filter-btn {
+            background-color: #333;
+            color: white;
+        }
+
+        body.dark-mode .filter-btn.active {
+            background-color: #073990;
+            color: white;
+        }
+
+        /* =========================
+           MODAL
+           ========================= */
+
+        #eventModal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+        }
+
+        #eventModalContent {
+            background-color: white;
+            color: black;
+            width: 80%;
+            max-width: 450px;
+            margin: 15% auto;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        body.dark-mode #eventModalContent {
+            background-color: #1e1e1e;
+            color: white;
+        }
+
+        body.dark-mode #eventModalContent h2 {
+            color: #6fa8ff;
+        }
+
+        #closeEventModal {
+            padding: 8px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(7, 57, 144);
+            color: white;
+        }
+
+        #closeEventModal:hover {
+            background-color: #06409f;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            main {
+                width: 95%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+
+            th,
+            td {
+                padding: 8px;
+            }
+
+            .events {
+                flex-direction: column;
+            }
+
+            #eventModalContent {
+                margin: 30% auto;
+                width: 75%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header>
+
+        <center>
+
+            <h1>🎓 CHARUSAT STUDENT HUB</h1>
+
+            <h2>Upcoming Events</h2>
+
+            <button id="themeToggle"
+                    type="button"
+                    aria-label="Switch to dark mode">
+                🌙 Dark Mode
+            </button>
+
+        </center>
+
+    </header>
+
+    <hr>
+
+
+    <!-- =========================
+         NAVIGATION
+         ========================= -->
+
+    <nav>
+
+        <center>
+
+            <a href="index.html">HOME</a> |
+            <a href="about.html">ABOUT</a> |
+            <a href="dashboard.php">DASHBOARD</a> |
+            <a href="profile.php">PROFILE</a> |
+            <a href="contact.html">CONTACT</a> |
+            <a href="faq.html">FAQ</a>
+
+        </center>
+
+    </nav>
+
+    <hr>
+
+
+    <!-- =========================
+         MAIN
+         ========================= -->
+
+    <main>
+
+        <section>
+
+            <center>
+
+                <h2>CHARUSAT Student Events</h2>
+
+                <p>
+                    Stay updated with upcoming academic, technical,
+                    cultural and sports events organized by CHARUSAT.
+                </p>
+
+            </center>
+
+        </section>
+
+        <hr>
+
+
+        <!-- =========================
+             UPCOMING EVENTS
+             ========================= -->
+
+        <section>
+
+            <h2>Upcoming Events</h2>
+
+
+            <!-- Event Filters -->
+
+            <div class="event-filters"
+                 aria-label="Event category filters">
+
+                <button class="filter-btn active"
+                        data-category="All"
+                        type="button">
+                    All
+                </button>
+
+                <button class="filter-btn"
+                        data-category="Academic"
+                        type="button">
+                    Academic
+                </button>
+
+                <button class="filter-btn"
+                        data-category="Technical"
+                        type="button">
+                    Technical
+                </button>
+
+                <button class="filter-btn"
+                        data-category="Sports"
+                        type="button">
+                    Sports
+                </button>
+
+            </div>
+
+
+            <!-- Event Table -->
+
+            <table border="1" cellpadding="10">
+
+                <tr>
+
+                    <th>Event Name</th>
+                    <th>Date</th>
+                    <th>Venue</th>
+                    <th>Category</th>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Orientation Program</td>
+                    <td>25 July 2026</td>
+                    <td>Main Auditorium</td>
+                    <td>Academic</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Coding Competition</td>
+                    <td>30 July 2026</td>
+                    <td>CSPIT Lab</td>
+                    <td>Technical</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Sports Week</td>
+                    <td>5 August 2026</td>
+                    <td>Sports Ground</td>
+                    <td>Sports</td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>Innovation Exhibition</td>
+                    <td>12 August 2026</td>
+                    <td>Seminar Hall</td>
+                    <td>Technical</td>
+
+                </tr>
+
+            </table>
+
+        </section>
+
+        <hr>
+
+
+        <!-- =========================
+             EVENT INFORMATION
+             ========================= -->
+
+        <section>
+
+            <h2>Event Information</h2>
+
+
+            <article>
+
+                <h3>Coding Competition</h3>
+
+                <p>
+                    Students can participate in coding challenges and
+                    demonstrate their programming and problem-solving skills.
+                </p>
+
+            </article>
+
+
+            <article>
+
+                <h3>Sports Week</h3>
+
+                <p>
+                    Various indoor and outdoor sports activities will be
+                    organized for students during Sports Week.
+                </p>
+
+            </article>
+
+        </section>
+
+    </main>
+
+    <hr>
+
+
+    <!-- =========================
+         EVENT MODAL
+         ========================= -->
+
+    <div id="eventModal"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="eventModalTitle">
+
+        <div id="eventModalContent">
+
+            <h2 id="eventModalTitle">
+                Event Details
+            </h2>
+
+            <p id="eventModalMessage"></p>
+
+            <button id="closeEventModal"
+                    type="button">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+
+        <center>
+
+            <p><b>CHARUSAT Student Hub</b></p>
+
+            <p>
+                Changa, Anand, Gujarat - 388421
+            </p>
+
+            <p>
+                &copy; 2026 CHARUSAT Student Hub
+            </p>
+
+        </center>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+         ========================= -->
+
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+
+
+            /* ==========================================
+               1. LIGHT / DARK THEME
+               ========================================== */
+
+            const themeToggle =
+                document.getElementById("themeToggle");
+
+
+            // Get previously saved theme
+
+            const savedTheme =
+                localStorage.getItem("eventsTheme");
+
+
+            // Restore dark mode if previously selected
+
+            if (savedTheme === "dark") {
+
+                document.body.classList.add("dark-mode");
+
+                themeToggle.textContent =
+                    "☀️ Light Mode";
+
+                themeToggle.setAttribute(
+                    "aria-label",
+                    "Switch to light mode"
+                );
+
+            }
+
+
+            // Theme button click
+
+            themeToggle.addEventListener("click", function () {
+
+                document.body.classList.toggle("dark-mode");
+
+
+                const isDark =
+                    document.body.classList.contains("dark-mode");
+
+
+                // Save preference
+
+                localStorage.setItem(
+                    "eventsTheme",
+                    isDark ? "dark" : "light"
+                );
+
+
+                // Change button
+
+                if (isDark) {
+
+                    themeToggle.textContent =
+                        "☀️ Light Mode";
+
+                    themeToggle.setAttribute(
+                        "aria-label",
+                        "Switch to light mode"
+                    );
+
+                }
+
+                else {
+
+                    themeToggle.textContent =
+                        "🌙 Dark Mode";
+
+                    themeToggle.setAttribute(
+                        "aria-label",
+                        "Switch to dark mode"
+                    );
+
+                }
+
+            });
+
+
+
+            /* ==========================================
+               2. EVENT TABLE
+               ========================================== */
+
+            const eventTable =
+                document.querySelector("table");
+
+
+            const eventRows =
+                eventTable.querySelectorAll("tr");
+
+
+            // Add interaction to event rows
+
+            eventRows.forEach(function (row, index) {
+
+
+                // Ignore table header
+
+                if (index === 0) {
+                    return;
+                }
+
+
+                row.classList.add("event-row");
+
+
+                // Keyboard accessibility
+
+                row.setAttribute("tabindex", "0");
+
+
+                // Click event
+
+                row.addEventListener("click", function () {
+
+                    showEventDetails(row);
+
+                });
+
+
+                // Enter / Space key
+
+                row.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key === "Enter" ||
+                            event.key === " "
+                        ) {
+
+                            event.preventDefault();
+
+                            showEventDetails(row);
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+
+            /* ==========================================
+               3. EVENT MODAL
+               ========================================== */
+
+            const eventModal =
+                document.getElementById("eventModal");
+
+
+            const eventModalMessage =
+                document.getElementById(
+                    "eventModalMessage"
+                );
+
+
+            const closeEventModal =
+                document.getElementById(
+                    "closeEventModal"
+                );
+
+
+            // Function to show event details
+
+            function showEventDetails(row) {
+
+
+                const cells =
+                    row.querySelectorAll("td");
+
+
+                const eventName =
+                    cells[0].textContent.trim();
+
+
+                const date =
+                    cells[1].textContent.trim();
+
+
+                const venue =
+                    cells[2].textContent.trim();
+
+
+                const category =
+                    cells[3].textContent.trim();
+
+
+                eventModalMessage.innerHTML =
+                    "<strong>Event:</strong> " +
+                    eventName +
+                    "<br><br>" +
+
+                    "<strong>Date:</strong> " +
+                    date +
+                    "<br>" +
+
+                    "<strong>Venue:</strong> " +
+                    venue +
+                    "<br>" +
+
+                    "<strong>Category:</strong> " +
+                    category;
+
+
+                // Show modal
+
+                eventModal.style.display = "block";
+
+
+                // Focus close button
+
+                closeEventModal.focus();
+
+            }
+
+
+
+            /* ==========================================
+               4. CLOSE MODAL
+               ========================================== */
+
+            closeEventModal.addEventListener(
+                "click",
+                function () {
+
+                    eventModal.style.display = "none";
+
+                }
+            );
+
+
+            // Close by clicking outside modal
+
+            eventModal.addEventListener(
+                "click",
+                function (event) {
+
+                    if (event.target === eventModal) {
+
+                        eventModal.style.display = "none";
+
+                    }
+
+                }
+            );
+
+
+            // Close using Escape key
+
+            document.addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key === "Escape" &&
+                        eventModal.style.display === "block"
+                    ) {
+
+                        eventModal.style.display = "none";
+
+                    }
+
+                }
+            );
+
+
+
+            /* ==========================================
+               5. EVENT CATEGORY FILTER
+               ========================================== */
+
+            const filterButtons =
+                document.querySelectorAll(".filter-btn");
+
+
+            filterButtons.forEach(function (button) {
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+
+                        // Remove active class
+
+                        filterButtons.forEach(
+                            function (btn) {
+
+                                btn.classList.remove("active");
+
+                            }
+                        );
+
+
+                        // Add active class to selected button
+
+                        button.classList.add("active");
+
+
+                        // Get selected category
+
+                        const selectedCategory =
+                            button.getAttribute(
+                                "data-category"
+                            );
+
+
+                        // Filter event rows
+
+                        eventRows.forEach(
+                            function (row, index) {
+
+
+                                if (index === 0) {
+                                    return;
+                                }
+
+
+                                const category =
+                                    row.cells[3]
+                                       .textContent
+                                       .trim();
+
+
+                                if (
+                                    selectedCategory === "All" ||
+                                    category === selectedCategory
+                                ) {
+
+                                    row.style.display = "";
+
+                                }
+
+                                else {
+
+                                    row.style.display = "none";
+
+                                }
+
+                            }
+                        );
+
+                    }
+                );
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>

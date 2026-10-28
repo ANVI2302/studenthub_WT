@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CHARUSAT Student Hub - Feedback</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: rgb(7, 57, 144);
+            color: white;
+            padding: 15px;
+        }
+
+        nav {
+            background-color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: rgb(7, 57, 144);
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px;
+        }
+
+        nav a:hover {
+            color: #06409f;
+        }
+
+        main {
+            width: 90%;
+            margin: auto;
+        }
+
+        section {
+            background-color: white;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        h2,
+        h3 {
+            color: rgb(7, 57, 144);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            background-color: rgb(7, 57, 144);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover,
+        input[type="reset"]:hover {
+            background-color: #06409f;
+        }
+
+        aside {
+            background-color: #e8eef8;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        a {
+            color: rgb(7, 57, 144);
+        }
+
+        footer {
+            background-color: rgb(7, 57, 144);
+            color: white;
+            padding: 15px;
+        }
+
+        /* =========================
+           THEME BUTTON
+           ========================= */
+
+        #themeToggle {
+            padding: 10px 18px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            background-color: white;
+            color: rgb(7, 57, 144);
+        }
+
+        #themeToggle:hover {
+            transform: scale(1.05);
+        }
+
+        /* =========================
+           DARK MODE
+           ========================= */
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #f1f1f1;
+        }
+
+        body.dark-mode nav {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode nav a {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode section {
+            background-color: #1e1e1e;
+        }
+
+        body.dark-mode h2,
+        body.dark-mode h3 {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode aside {
+            background-color: #26364a;
+        }
+
+        body.dark-mode a {
+            color: #6fa8ff;
+        }
+
+        body.dark-mode input,
+        body.dark-mode select,
+        body.dark-mode textarea {
+            background-color: #2b2b2b;
+            color: white;
+            border: 1px solid #666;
+        }
+
+        body.dark-mode #themeToggle {
+            background-color: #333;
+            color: white;
+        }
+
+        /* =========================
+           FORM
+           ========================= */
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .error {
+            color: #d00000;
+            font-size: 14px;
+            display: none;
+            margin-top: 5px;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #dff0d8;
+            color: #256029;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        body.dark-mode .success-message {
+            background-color: #214d2b;
+            color: #d8ffd8;
+        }
+
+        #charCount {
+            font-size: 13px;
+            color: #666;
+        }
+
+        body.dark-mode #charCount {
+            color: #bbb;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+        @media (max-width: 600px) {
+
+            main {
+                width: 95%;
+            }
+
+            section {
+                padding: 12px;
+                margin: 10px 0;
+            }
+
+            input,
+            select,
+            textarea {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+
+            nav a {
+                display: block;
+                margin: 8px;
+            }
+
+        }
+
+    </style>
+
+<?php require_once "config.php"; ?>
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header>
+
+        <center>
+
+            <?php if(isset($_GET["submitted"])) echo "<p>Feedback saved successfully.</p>"; ?>
+<h1>🎓 CHARUSAT STUDENT HUB</h1>
+
+            <h2>Student Feedback</h2>
+
+            <button id="themeToggle"
+                    type="button"
+                    aria-label="Switch to dark mode">
+
+                🌙 Dark Mode
+
+            </button>
+
+        </center>
+
+    </header>
+
+
+    <hr>
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+        <center>
+
+            <a href="index.html">HOME</a> |
+            <a href="dashboard.php">DASHBOARD</a> |
+            <a href="events.html">EVENTS</a> |
+            <a href="profile.php">PROFILE</a> |
+            <a href="contact.html">CONTACT</a> |
+            <a href="faq.html">FAQ</a>
+
+        </center>
+
+    </nav>
+
+
+    <hr>
+
+
+    <main>
+
+
+        <!-- INTRODUCTION -->
+
+        <section>
+
+            <center>
+
+                <h2>We Value Your Feedback</h2>
+
+                <p>
+                    Your feedback helps us improve the Student Hub
+                    and provide better services to students.
+                </p>
+
+            </center>
+
+        </section>
+
+
+        <hr>
+
+
+        <!-- FEEDBACK FORM -->
+
+        <section>
+
+            <h2>Feedback Form</h2>
+
+
+            <!-- Success Message -->
+
+            <div id="successMessage"
+                 class="success-message"
+                 role="status">
+
+                ✅ Thank you! Your feedback has been submitted
+                successfully.
+
+            </div>
+
+
+            <form id="feedbackForm" method="post" action="submit_feedback.php">
+<input type="hidden" name="csrf" value="<?=e(csrf_token())?>">
+
+
+                <!-- Student Name -->
+
+                <div class="form-group">
+
+                    <label for="studentname">
+                        Student Name:
+                    </label>
+
+                    <br>
+
+                    <input type="text"
+                           id="studentname"
+                           name="studentname"
+                           required>
+
+                    <p id="nameError"
+                       class="error">
+
+                        Please enter your name.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Email -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email:
+                    </label>
+
+                    <br>
+
+                    <input type="email"
+                           id="email"
+                           name="email"
+                           required>
+
+                    <p id="emailError"
+                       class="error">
+
+                        Please enter a valid email address.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Category -->
+
+                <div class="form-group">
+
+                    <label for="category">
+                        Feedback Category:
+                    </label>
+
+                    <br>
+
+                    <select id="category"
+                            name="category"
+                            required>
+
+                        <option value="">
+                            -- Select Category --
+                        </option>
+
+                        <option value="Website">
+                            Website
+                        </option>
+
+                        <option value="Academic Services">
+                            Academic Services
+                        </option>
+
+                        <option value="Events">
+                            Events
+                        </option>
+
+                        <option value="Student Support">
+                            Student Support
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- Rating -->
+
+                <div class="form-group">
+
+                    <label>
+                        Overall Rating:
+                    </label>
+
+                    <br>
+
+                    <input type="radio"
+                           id="excellent"
+                           name="rating"
+                           value="Excellent">
+
+                    <label for="excellent">
+                        Excellent
+                    </label>
+
+
+                    <input type="radio"
+                           id="good"
+                           name="rating"
+                           value="Good">
+
+                    <label for="good">
+                        Good
+                    </label>
+
+
+                    <input type="radio"
+                           id="average"
+                           name="rating"
+                           value="Average">
+
+                    <label for="average">
+                        Average
+                    </label>
+
+                </div>
+
+
+                <!-- Feedback -->
+
+                <div class="form-group">
+
+                    <label for="feedback">
+                        Your Feedback:
+                    </label>
+
+                    <br>
+
+                    <textarea id="feedback"
+                              name="feedback"
+                              rows="6"
+                              cols="45"
+                              maxlength="500"
+                              placeholder="Write your feedback here..."
+                              required></textarea>
+
+                    <br>
+
+                    <span id="charCount">
+                        0 / 500 characters
+                    </span>
+
+                    <p id="feedbackError"
+                       class="error">
+
+                        Please enter your feedback.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Buttons -->
+
+                <input type="submit"
+                       value="Submit Feedback">
+
+                <input type="reset"
+                       value="Clear"
+                       id="resetButton">
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <hr>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <center>
+
+            <p>
+                <b>CHARUSAT Student Hub</b>
+            </p>
+
+            <p>
+                📧 info@charusat.ac.in
+            </p>
+
+            <p>
+                &copy; 2026 CHARUSAT Student Hub |
+                All Rights Reserved.
+            </p>
+
+        </center>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /* =================================
+                   1. DARK / LIGHT MODE
+                   ================================= */
+
+                const themeToggle =
+                    document.getElementById(
+                        "themeToggle"
+                    );
+
+
+                const savedTheme =
+                    localStorage.getItem(
+                        "feedbackTheme"
+                    );
+
+
+                // Restore saved theme
+
+                if (savedTheme === "dark") {
+
+                    document.body.classList.add(
+                        "dark-mode"
+                    );
+
+                    themeToggle.textContent =
+                        "☀️ Light Mode";
+
+                    themeToggle.setAttribute(
+                        "aria-label",
+                        "Switch to light mode"
+                    );
+
+                }
+
+
+                // Theme button
+
+                themeToggle.addEventListener(
+                    "click",
+                    function () {
+
+
+                        document.body.classList.toggle(
+                            "dark-mode"
+                        );
+
+
+                        const isDark =
+                            document.body.classList.contains(
+                                "dark-mode"
+                            );
+
+
+                        // Save theme
+
+                        localStorage.setItem(
+                            "feedbackTheme",
+                            isDark ? "dark" : "light"
+                        );
+
+
+                        if (isDark) {
+
+                            themeToggle.textContent =
+                                "☀️ Light Mode";
+
+                            themeToggle.setAttribute(
+                                "aria-label",
+                                "Switch to light mode"
+                            );
+
+                        }
+
+                        else {
+
+                            themeToggle.textContent =
+                                "🌙 Dark Mode";
+
+                            themeToggle.setAttribute(
+                                "aria-label",
+                                "Switch to dark mode"
+                            );
+
+                        }
+
+                    }
+                );
+
+
+
+                /* =================================
+                   2. GET FORM ELEMENTS
+                   ================================= */
+
+                const form =
+                    document.getElementById(
+                        "feedbackForm"
+                    );
+
+
+                const studentName =
+                    document.getElementById(
+                        "studentname"
+                    );
+
+
+                const email =
+                    document.getElementById(
+                        "email"
+                    );
+
+
+                const category =
+                    document.getElementById(
+                        "category"
+                    );
+
+
+                const feedback =
+                    document.getElementById(
+                        "feedback"
+                    );
+
+
+                const successMessage =
+                    document.getElementById(
+                        "successMessage"
+                    );
+
+
+                const charCount =
+                    document.getElementById(
+                        "charCount"
+                    );
+
+
+
+                /* =================================
+                   3. CHARACTER COUNTER
+                   ================================= */
+
+                feedback.addEventListener(
+                    "input",
+                    function () {
+
+
+                        const length =
+                            feedback.value.length;
+
+
+                        charCount.textContent =
+                            length + " / 500 characters";
+
+
+                    }
+                );
+
+
+
+                /* =================================
+                   4. FORM SUBMISSION
+                   ================================= */
+
+                form.addEventListener(
+                    "submit",
+                    function (event) {
+
+
+                        // Stop page refresh
+
+                        event.preventDefault();
+
+
+                        let isValid = true;
+
+
+
+                        /* NAME VALIDATION */
+
+                        if (
+                            studentName.value.trim() === ""
+                        ) {
+
+                            document.getElementById(
+                                "nameError"
+                            ).style.display = "block";
+
+                            isValid = false;
+
+                        }
+
+                        else {
+
+                            document.getElementById(
+                                "nameError"
+                            ).style.display = "none";
+
+                        }
+
+
+
+                        /* EMAIL VALIDATION */
+
+                        const emailPattern =
+                            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                        if (
+                            !emailPattern.test(
+                                email.value.trim()
+                            )
+                        ) {
+
+                            document.getElementById(
+                                "emailError"
+                            ).style.display = "block";
+
+                            isValid = false;
+
+                        }
+
+                        else {
+
+                            document.getElementById(
+                                "emailError"
+                            ).style.display = "none";
+
+                        }
+
+
+
+                        /* CATEGORY VALIDATION */
+
+                        if (
+                            category.value === ""
+                        ) {
+
+                            alert(
+                                "Please select a feedback category."
+                            );
+
+                            isValid = false;
+
+                        }
+
+
+
+                        /* FEEDBACK VALIDATION */
+
+                        if (
+                            feedback.value.trim() === ""
+                        ) {
+
+                            document.getElementById(
+                                "feedbackError"
+                            ).style.display = "block";
+
+                            isValid = false;
+
+                        }
+
+                        else {
+
+                            document.getElementById(
+                                "feedbackError"
+                            ).style.display = "none";
+
+                        }
+
+
+
+                        /* =================================
+                           IF FORM IS VALID
+                           ================================= */
+
+                        if (isValid) {
+
+
+                            successMessage.style.display =
+                                "block";
+
+
+                            successMessage.textContent =
+                                "✅ Thank you, " +
+                                studentName.value.trim() +
+                                "! Your feedback has been submitted successfully.";
+
+
+                            // Scroll to success message
+
+                            successMessage.scrollIntoView({
+                                behavior: "smooth",
+                                block: "center"
+                            });
+
+
+                            // Clear form
+
+                            form.reset();
+
+
+                            // Reset character counter
+
+                            charCount.textContent =
+                                "0 / 500 characters";
+
+
+                            // Hide success message after 5 seconds
+
+                            setTimeout(
+                                function () {
+
+                                    successMessage.style.display =
+                                        "none";
+
+                                },
+                                5000
+                            );
+
+                        }
+
+                    }
+                );
+
+
+
+                /* =================================
+                   5. RESET BUTTON
+                   ================================= */
+
+                const resetButton =
+                    document.getElementById(
+                        "resetButton"
+                    );
+
+
+                resetButton.addEventListener(
+                    "click",
+                    function () {
+
+
+                        document.getElementById(
+                            "nameError"
+                        ).style.display = "none";
+
+
+                        document.getElementById(
+                            "emailError"
+                        ).style.display = "none";
+
+
+                        document.getElementById(
+                            "feedbackError"
+                        ).style.display = "none";
+
+
+                        successMessage.style.display =
+                            "none";
+
+
+                        charCount.textContent =
+                            "0 / 500 characters";
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
